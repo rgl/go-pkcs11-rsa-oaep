@@ -1,0 +1,16 @@
+name: Build
+on: [push]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Go 1.15
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.15.0'
+      - name: Install dependencies
+        run: sudo apt-get install -y softhsm2 opensc
+      - name: Test
+        run: ./test.sh
