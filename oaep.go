@@ -85,6 +85,10 @@ func encrypt(c *big.Int, pub *rsa.PublicKey, m *big.Int) *big.Int {
 
 // decrypt performs an RSA decryption, resulting in a plaintext integer. If a
 // random source is given, RSA blinding is used.
+// NB the original code had RSA blinding here, BUT that was removed from here
+//    because this code path is only used by the tests. this way its less code
+//    to maintain. also remember that the real Decrypt does the operation on
+//    the HSM (and the private key never leaves the HSM).
 func decrypt(priv *rsa.PrivateKey, c *big.Int) (m *big.Int, err error) {
 	if c.Cmp(priv.N) > 0 {
 		err = errors.New("c.Cmp(priv.N) > 0")
